@@ -26,3 +26,5 @@ out/
 # vim
 *~
 
+# generated source file
+src/main/groovy/org/mikeneck/gradle/plugin/model/*.java

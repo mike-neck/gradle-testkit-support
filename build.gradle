@@ -36,6 +36,29 @@ idea {
     }
 }
 
+model {
+    metaModel {
+        srcDir = 'src/main/groovy'
+        packageName = 'org.mikeneck.gradle.plugin.model'
+        classes.create {
+            name = 'TestKitSupport'
+            type = INTERFACE
+            fields.create {
+                name = 'testSrcDir'
+                type = STRING
+            }
+            fields.create {
+                name = 'packageName'
+                type = STRING
+            }
+            fields.create {
+                name = 'className'
+                type = STRING
+            }
+        }
+    }
+}
+
 pluginBundle {
     website = 'https://github.com/mike-neck/gradle-testkit-support'
     vcsUrl = 'https://github.com/mike-neck/gradle-testkit-support'

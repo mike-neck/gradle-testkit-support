@@ -1,3 +1,9 @@
+# Java specific files
+*.jar
+*.class
+
+# Gradle
+# Gradle specific files and directories
 .gradle
 build/
 
@@ -5,4 +11,18 @@ build/
 gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+!gradle/wrapper/*.jar
+
+# IntelliJ IDEA specific files and directories
+out/
+
+*.iml
+*.ipr
+*.iws
+
+# macintosh specific file
+.DS_Store
+
+# vim
+*~
+

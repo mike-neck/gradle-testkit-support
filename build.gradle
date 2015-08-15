@@ -1,0 +1,53 @@
+plugins {
+    id 'groovy'
+    id 'idea'
+    id "org.mikeneck.rule-based-model-generation" version "0.1"
+    id 'com.gradle.plugin-publish' version '0.9.1'
+}
+
+ext {
+    jdkLevel = 1.8
+    encoding = 'UTF-8'
+}
+
+version = '0.1'
+group = 'org.mikeneck.gradle.plugin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    testCompile gradleTestKit()
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
+}
+
+tasks.withType(JavaCompile) {
+    it.sourceCompatibility = jdkLevel
+    it.targetCompatibility = jdkLevel
+    it.options.encoding = encoding
+}
+
+idea {
+    project {
+        languageLevel = jdkLevel
+        vcs = 'Git'
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/mike-neck/gradle-testkit-support'
+    vcsUrl = 'https://github.com/mike-neck/gradle-testkit-support'
+    description = """|Gradle testKit support plugin.
+            |This plugin only works on Gradle 2.6 above.
+            |""".stripMargin()
+    plugins {
+        testKitSupport {
+            id = 'org.mikeneck.gradle-testkit-support-plugin'
+            tags = ['test']
+            displayName = 'Gradle Test-Kit support plugin'
+        }
+    }
+}
+

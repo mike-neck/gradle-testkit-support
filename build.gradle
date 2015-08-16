@@ -64,7 +64,7 @@ pluginBundle {
     website = 'https://github.com/mike-neck/gradle-testkit-support'
     vcsUrl = 'https://github.com/mike-neck/gradle-testkit-support'
     description = """|Gradle testKit support plugin.
-            |This plugin only works on Gradle 2.6 above.
+            |This plugin requires Gradle 2.6 above and Java SE8.
             |""".stripMargin()
     plugins {
         testKitSupport {

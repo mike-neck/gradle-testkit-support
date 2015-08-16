@@ -77,6 +77,12 @@ class YourPluginSpec extends Specification {
 }
 ```
 
+Requirement
+===
+
+* Gradle 2.6 above
+* Java SE8
+
 LICENSE
 ===
 

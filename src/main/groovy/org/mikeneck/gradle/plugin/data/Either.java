@@ -62,6 +62,8 @@ public interface Either<T> extends Result {
 
     T orElse(T defaultValue);
 
+    T orThrow(Function<? super String, ? extends RuntimeException> converter) throws RuntimeException;
+
     final class Left<T> implements Either<T> {
         private final String message;
         Left(String message) {
@@ -87,6 +89,12 @@ public interface Either<T> extends Result {
         public T orElse(T defaultValue) {
             if (defaultValue == null) throw new IllegalArgumentException("default value should be non-null value.");
             return defaultValue;
+        }
+
+        @Override
+        public T orThrow(Function<? super String, ? extends RuntimeException> converter) {
+            if (converter == null) throw new IllegalArgumentException("function should be non-null value.");
+            throw converter.apply(message);
         }
 
         @Override
@@ -126,6 +134,12 @@ public interface Either<T> extends Result {
         @Override
         public T orElse(T defaultValue) {
             if (defaultValue == null) throw new IllegalArgumentException("default value should be non-null value.");
+            return value;
+        }
+
+        @Override
+        public T orThrow(Function<? super String, ? extends RuntimeException> converter) throws RuntimeException {
+            if (converter == null) throw new IllegalArgumentException("function should be non-null value.");
             return value;
         }
 

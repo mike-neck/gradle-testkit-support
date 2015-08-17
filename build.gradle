@@ -17,10 +17,17 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    gradleDep {
+        description = 'Gradle Apis'
+    }
+}
+
 dependencies {
     compile 'org.jetbrains:annotations:13.0'
     compile 'org.yaml:snakeyaml:1.15'
-    compile gradleApi()
+    gradleDep gradleApi()
+    compile configurations.gradleDep
     testCompile gradleTestKit()
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
 }
@@ -35,6 +42,60 @@ idea {
     project {
         languageLevel = jdkLevel
         vcs = 'Git'
+    }
+}
+
+task listDepencencies {
+    def deps = configurations.runtime - configurations.gradleDep
+    def list = deps.findAll {
+        !it.isDirectory()
+    }.collect {
+        it.absolutePath
+    }.sort { it }
+    def destDir = file('build/listDependencies')
+    def outputFile = file('build/listDependencies/dependencies.txt')
+
+    description = 'List up dependency files.'
+
+    outputs.file outputFile
+
+    outputs.upToDateWhen {
+        if (!outputFile.exists()) {
+            return false
+        } else {
+            def tmp = []
+            outputFile.text.eachLine {
+                tmp << it
+            }
+            def listed = tmp.sort {it}
+            return list == listed
+        }
+    }
+
+    doLast {
+        if(!destDir.exists()) {
+            destDir.mkdirs()
+        }
+        outputFile.write(list.join('\n'), 'UTF-8')
+    }
+}
+
+task prepareTest(type: Copy, dependsOn: 'listDepencencies') {
+    group = 'Prepare Test'
+    description = 'List up dependency files.'
+
+    def files = tasks['listDepencencies'].outputs.files
+
+    from files
+    into file('src/test/resources/dependencies/')
+
+    outputs.upToDateWhen {
+        def depFile = file('src/test/resources/dependencies/dependencies.txt')
+        if (!depFile.exists()) {
+            return false
+        } else {
+            return depFile.text == files[0].text
+        }
     }
 }
 

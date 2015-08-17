@@ -29,3 +29,6 @@ out/
 # generated source file
 src/main/groovy/org/mikeneck/gradle/plugin/model/*.java
 src/test/resources/dependencies/*.txt
+
+# experimental build script
+experimental.gradle

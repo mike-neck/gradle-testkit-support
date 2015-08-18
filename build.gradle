@@ -99,6 +99,10 @@ task prepareTest(type: Copy, dependsOn: 'listDepencencies') {
     }
 }
 
+test {
+    maxParallelForks = 4
+}
+
 model {
     metaModel {
         srcDir = 'src/main/groovy'

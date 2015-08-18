@@ -32,3 +32,6 @@ src/test/resources/dependencies/*.txt
 
 # experimental build script
 experimental.gradle
+
+# memo files
+memo/

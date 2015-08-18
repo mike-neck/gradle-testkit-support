@@ -17,13 +17,11 @@ package org.mikeneck.gradle.plugin;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mikeneck.gradle.plugin.data.TestKitSupportPojo;
+import org.mikeneck.gradle.plugin.model.TestKitSupportPojo;
 import org.mikeneck.gradle.plugin.model.TestKitSupport;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.DumperOptions.LineBreak;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -43,33 +41,13 @@ public class YamlTest {
 
     @Before
     public void setup() {
-        support = new TestKitSupport() {
-            @Override
-            public String getTestSrcDir() {
-                return testSrcDir;
-            }
-            @Override
-            public void setTestSrcDir(String testSrcDir) {}
-            @Override
-            public String getPackageName() {
-                return packageName;
-            }
-            @Override
-            public void setPackageName(String packageName) {}
-            @Override
-            public String getClassName() {
-                return className;
-            }
-            @Override
-            public void setClassName(String className) {}
-        };
+        support = new TestKitSupportPojo(testSrcDir, packageName, className);
     }
 
     @Test
     public void testSerialize() {
         DumperOptions dumpOption = new DumperOptions();
         dumpOption.setDefaultFlowStyle(FlowStyle.BLOCK);
-        dumpOption.setExplicitRoot("!!" + TestKitSupportPojo.class.getCanonicalName());
         Yaml yaml = new Yaml(dumpOption);
         String dump = yaml.dump(support);
         System.out.println(dump);
@@ -82,7 +60,7 @@ public class YamlTest {
     @Test
     public void testDeserialize() throws IOException {
         StringWriter sw = new StringWriter();
-        String text = sw.append("!!org.mikeneck.gradle.plugin.data.TestKitSupportPojo")
+        String text = sw.append("!!org.mikeneck.gradle.plugin.model.TestKitSupportPojo")
                 .append('\n')
                 .append("testSrcDir: ").append(testSrcDir)
                 .append('\n')

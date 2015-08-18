@@ -1,7 +1,7 @@
 plugins {
     id 'groovy'
     id 'idea'
-    id "org.mikeneck.rule-based-model-generation" version "0.1"
+    id "org.mikeneck.rule-based-model-generation" version "0.2.1"
     id 'com.gradle.plugin-publish' version '0.9.1'
 }
 

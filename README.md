@@ -87,3 +87,65 @@ LICENSE
 ===
 
 Apache2
+
+For Contributors
+===
+
+### Project setup
+
+#### run these tasks
+
+1. `./gradlew --daemon idea`
+1. `./gradlew --daemon generatePojos`
+1. `./gradlew --daemon prepareTest`
+
+#### modify generated POJO file
+
+Because of `org.mikeneck.rule-based-model-generation` plugin's less functionality, a generated POJO `TestKitSupportPojo` has no constructor and no standard methods(`toString`, `hashCode`, `equals`), so please add them by hand.
+
+```java
+public class TestKitSupportPojo implements TestKitSupport {
+
+    // add from
+    public TestKitSupportPojo() {}
+
+    public TestKitSupportPojo(TestKitSupport parent) {
+        this.testSrcDir = parent.getTestSrcDir();
+        this.packageName = parent.getPackageName();
+        this.className = parent.getClassName();
+    }
+
+    public TestKitSupportPojo(String testSrcDir, String packageName, String className) {
+        this.testSrcDir = testSrcDir;
+        this.packageName = packageName;
+        this.className = className;
+    }
+
+    @Override
+    public String toString() {
+        return "TestKitSupport["
+                + "testSrcDir:[" + testSrcDir + "],"
+                + "packageName:[" + packageName + "],"
+                + "className:[" + className + "]]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (this == o) return true;
+        if (!(o instanceof TestKitSupport)) return false;
+        TestKitSupport that = (TestKitSupport) o;
+        return Objects.equals(testSrcDir, that.getTestSrcDir()) &&
+                Objects.equals(packageName, that.getPackageName()) &&
+                Objects.equals(className, that.getClassName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(testSrcDir, packageName, className);
+    }
+    // add end
+
+    // setter/getter/fields...
+}
+```

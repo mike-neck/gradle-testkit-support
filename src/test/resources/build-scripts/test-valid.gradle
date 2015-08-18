@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'org.mikeneck.gradle-testkit-support-plugin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    testCompile gradleTestKit()
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
+}
+
+model {
+    testKitSupport {
+        testSrcDir = 'src/test/java'
+        packageName = 'com.sample.plugin'
+        className = 'TestProject'
+    }
+}
+
+

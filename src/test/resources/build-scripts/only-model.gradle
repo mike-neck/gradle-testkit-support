@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: 'org.mikeneck.gradle-testkit-support-plugin'
+
+model {
+    testKitSupport {
+        testSrcDir = 'src/test/groovy'
+        packageName = 'com.sample.plugin'
+        className = 'TemporaryProject'
+    }
+}
